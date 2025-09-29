@@ -40,12 +40,6 @@ public class Game(Player[] players, Deck deck)
 
     private void GetFinalWinner()
     {
-        if (Players.Count == 0)
-        {
-            Console.WriteLine("沒有玩家參與遊戲。");
-            return;
-        }
-
         var winner = Players[0];
         
         foreach (var player in Players)

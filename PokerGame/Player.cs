@@ -9,7 +9,7 @@ public abstract class Player
     public int TotalPoints { get; set; }
     private Card? ExchangedCard { get; set; }
     private Player? ExchangedPlayer { get; set; }
-    private bool HasUsedExchange { get; set; }
+    public bool HasUsedExchange { get; set; }
     private int ExchangeRound { get; set; }
 
     public virtual void Naming()
@@ -18,7 +18,7 @@ public abstract class Player
 
     public abstract Card? Decide();
 
-    private void AcceptCardExchange(Player targetPlayer, Card acceptedCard)
+    public void AcceptCardExchange(Player targetPlayer, Card acceptedCard)
     {
         SetExchangeInfo(targetPlayer, acceptedCard);
         var selectedCard = SelectCard();
@@ -98,8 +98,7 @@ public abstract class Player
                 $"invalid player index, please input number between 1 and {playersCanExchange.Count}");
         }
 
-        var targetPlayer = playersCanExchange[playerIndex - 1];
-        return targetPlayer;
+        return playersCanExchange[playerIndex - 1];
     }
     public virtual void ExchangeCard(Game game)
     {
@@ -120,12 +119,12 @@ public abstract class Player
         }
     }
     
-    private static bool HasOtherPlayersCanDoExchange(Game game)
+    protected static bool HasOtherPlayersCanDoExchange(Game game)
     {
         return game.Players.Where(x => !x.HasUsedExchange).ToList().Count > 1;
     }
 
-    private void ProcessCardExchange(Game game)
+    protected virtual void ProcessCardExchange(Game game)
     {
         if (!HasOtherPlayersCanDoExchange(game)) return;
         
