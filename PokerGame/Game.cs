@@ -1,5 +1,4 @@
-﻿using PokerGame.Enums;
-using PokerGame.Models;
+﻿using PokerGame.Models;
 using PokerGame.Services;
 
 namespace PokerGame;
@@ -78,7 +77,7 @@ public class Game(Player[] players)
         var winningCard = PlayersShowCard[winner];
 
         Console.WriteLine($"本輪勝利者：{winner.Name}，勝利卡牌：{winningCard.Rank} of {winningCard.Suit}");
-        winner.TotalPoints++;
+        winner.AddPoints(1);
         Console.WriteLine($"{winner.Name} 目前總分：{winner.TotalPoints}");
     }
 

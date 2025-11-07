@@ -31,7 +31,7 @@ public class CardComparator
 
     public Player GetRoundWinner(Dictionary<Player, Card> playersShowCard)
     {
-        if (!playersShowCard.Any())
+        if (playersShowCard.Count == 0)
             throw new InvalidOperationException("沒有玩家出牌");
 
         var winner = playersShowCard.First().Key;
@@ -39,11 +39,9 @@ public class CardComparator
 
         foreach (var playerCard in playersShowCard.Skip(1))
         {
-            if (IsCardBigger(playerCard.Value, winningCard))
-            {
-                winner = playerCard.Key;
-                winningCard = playerCard.Value;
-            }
+            if (!IsCardBigger(playerCard.Value, winningCard)) continue;
+            winner = playerCard.Key;
+            winningCard = playerCard.Value;
         }
 
         return winner;

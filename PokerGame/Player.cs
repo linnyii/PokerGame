@@ -4,25 +4,29 @@ namespace PokerGame;
 
 public abstract class Player
 {
-    private HashSet<Card> handCards = new();
+    private readonly HashSet<Card> _handCards = [];
     public string Name { get; protected set; } = string.Empty;
-    public int TotalPoints { get; set; }
-    
-    public IReadOnlyCollection<Card> HandCards => handCards;
+    public int TotalPoints { get; private set; }
+
+    protected IReadOnlyCollection<Card> HandCards => _handCards;
     
     public void AddCard(Card card)
     {
-        handCards.Add(card);
+        _handCards.Add(card);
     }
     
     public void RemoveCard(Card card)
     {
-        handCards.Remove(card);
+        _handCards.Remove(card);
     }
 
-    public int HandCardCount => handCards.Count;
+    public int HandCardCount => _handCards.Count;
     
-    // 交換相關狀態
+    public void AddPoints(int points)
+    {
+        TotalPoints += points;
+    }
+
     public ExchangeInfo ExchangeInfo { get; } = new();
 
     public abstract void Naming();

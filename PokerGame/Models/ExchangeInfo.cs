@@ -31,11 +31,10 @@ public class ExchangeInfo
         Console.WriteLine($"{playerName} return {ExchangedCard.Rank} of {ExchangedCard.Suit} back to {ExchangedPlayer.Name}");
         ExchangedPlayer.AddCard(ExchangedCard);
         
-        // 重置交换信息
         ExchangedCard = null;
         ExchangedPlayer = null;
     }
 
-    public bool IsActive => ExchangedCard != null && ExchangedPlayer != null;
+    private bool IsActive => ExchangedCard != null && ExchangedPlayer != null;
     public bool ShouldReturn => ExchangeRound == 3 && IsActive;
 }
