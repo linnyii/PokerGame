@@ -26,9 +26,9 @@ public class ExchangeManager
     {
         foreach (var player in players)
         {
-            if (!player.HasUsedExchange) continue;
+            if (!player.ExchangeInfo.HasUsedExchange) continue;
 
-            if (player is { ExchangeRound: 3, ExchangedCard: not null })
+            if (player.ExchangeInfo.ShouldReturn)
             {
                 player.ReturnExchangedCard();
             }
@@ -41,7 +41,7 @@ public class ExchangeManager
 
     private bool CanExchange(Player player, Game game)
     {
-        return !player.HasUsedExchange && 
+        return !player.ExchangeInfo.HasUsedExchange && 
                player.HasRemainCard() && 
                GetAvailablePlayersForExchange(player, game).Count != 0;
     }
@@ -49,14 +49,14 @@ public class ExchangeManager
     private List<Player> GetAvailablePlayersForExchange(Player currentPlayer, Game game)
     {
         return game.Players
-            .Where(p => !p.HasUsedExchange && p != currentPlayer)
+            .Where(p => !p.ExchangeInfo.HasUsedExchange && p != currentPlayer)
             .ToList();
     }
 
     private void ExecuteExchange(Player initiator, Player target, Card selectedCard)
     {
         initiator.RemoveCard(selectedCard);
-        initiator.HasUsedExchange = true;
+        initiator.ExchangeInfo.HasUsedExchange = true;
         
         target.SetExchangeInfo(initiator, selectedCard);
         var returnCard = target.SelectCardForExchange();

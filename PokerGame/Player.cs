@@ -23,10 +23,7 @@ public abstract class Player
     public int HandCardCount => handCards.Count;
     
     // 交換相關狀態
-    public bool HasUsedExchange { get; set; }
-    public Card? ExchangedCard { get; private set; }
-    public Player? ExchangedPlayer { get; private set; }
-    public int ExchangeRound { get; private set; }
+    public ExchangeInfo ExchangeInfo { get; } = new();
 
     public abstract void Naming();
     public abstract Card? Decide();
@@ -36,10 +33,7 @@ public abstract class Player
 
     public void SetExchangeInfo(Player targetPlayer, Card acceptedCard)
     {
-        ExchangedCard = acceptedCard;
-        ExchangedPlayer = targetPlayer;
-        ExchangeRound += 1;
-        HasUsedExchange = true;
+        ExchangeInfo.SetExchangeInfo(targetPlayer, acceptedCard);
         Console.WriteLine($"{Name} received {acceptedCard.Rank} of {acceptedCard.Suit} from {targetPlayer.Name}");
     }
 
@@ -47,17 +41,11 @@ public abstract class Player
 
     public void IncrementExchangeRound()
     {
-        if (ExchangedCard != null)
-        {
-            ExchangeRound += 1;
-        }
+        ExchangeInfo.IncrementExchangeRound();
     }
 
     public void ReturnExchangedCard()
     {
-        Console.WriteLine($"{Name} return {ExchangedCard!.Rank} of {ExchangedCard.Suit} back to {ExchangedPlayer!.Name}");
-        ExchangedPlayer.AddCard(ExchangedCard);
-        ExchangedCard = null;
-        ExchangedPlayer = null;
+        ExchangeInfo.ReturnExchangedCard(Name);
     }
 }
