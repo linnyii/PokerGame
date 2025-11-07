@@ -43,7 +43,7 @@ public class Deck
         foreach (var card in Cards)
         {
             var currentPlayer = players[playerIndex];
-            currentPlayer.HandCards.Add(card);
+            currentPlayer.AddCard(card);
             
             playerIndex = (playerIndex + 1) % players.Count;
         }
@@ -51,7 +51,7 @@ public class Deck
         Console.WriteLine($"已將 {Cards.Count} 張牌分給 {players.Count} 位玩家");
         foreach (var player in players)
         {
-            Console.WriteLine($"玩家 {player.Name} 獲得 {player.HandCards.Count} 張牌");
+            Console.WriteLine($"玩家 {player.Name} 獲得 {player.HandCardCount} 張牌");
         }
     }
 }

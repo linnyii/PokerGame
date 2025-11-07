@@ -11,7 +11,7 @@ public class Game(Player[] players)
     private readonly CardComparator _cardComparator = new();
     private readonly ExchangeManager _exchangeManager = new();
     public List<Player> Players { get; } = players.ToList();
-    private Dictionary<Player, Card> PlayersShowCard { get; set; } = new();
+    private Dictionary<Player, Card> PlayersShowCard { get; } = new();
     private int GameRound { get; set; }
 
     public void Start()
@@ -84,12 +84,9 @@ public class Game(Player[] players)
 
     private void InitializePlayerNames()
     {
-        foreach (var player in Players)
+        foreach (var player in Players.Where(player => string.IsNullOrEmpty(player.Name)))
         {
-            if (string.IsNullOrEmpty(player.Name))
-            {
-                player.Naming();
-            }
+            player.Naming();
         }
     }
 

@@ -55,12 +55,12 @@ public class ExchangeManager
 
     private void ExecuteExchange(Player initiator, Player target, Card selectedCard)
     {
-        initiator.HandCards.Remove(selectedCard);
+        initiator.RemoveCard(selectedCard);
         initiator.HasUsedExchange = true;
         
         target.SetExchangeInfo(initiator, selectedCard);
         var returnCard = target.SelectCardForExchange();
-        target.HandCards.Remove(returnCard);
+        target.RemoveCard(returnCard);
         
         initiator.SetExchangeInfo(target, returnCard);
     }

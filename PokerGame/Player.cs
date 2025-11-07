@@ -4,9 +4,23 @@ namespace PokerGame;
 
 public abstract class Player
 {
-    public HashSet<Card> HandCards { get; set; } = new();
+    private HashSet<Card> handCards = new();
     public string Name { get; protected set; } = string.Empty;
     public int TotalPoints { get; set; }
+    
+    public IReadOnlyCollection<Card> HandCards => handCards;
+    
+    public void AddCard(Card card)
+    {
+        handCards.Add(card);
+    }
+    
+    public void RemoveCard(Card card)
+    {
+        handCards.Remove(card);
+    }
+
+    public int HandCardCount => handCards.Count;
     
     // 交換相關狀態
     public bool HasUsedExchange { get; set; }
@@ -20,7 +34,6 @@ public abstract class Player
     public abstract Player SelectTargetPlayer(List<Player> availablePlayers);
     public abstract bool WantsToExchange();
 
-    // 只負責設定交換資訊
     public void SetExchangeInfo(Player targetPlayer, Card acceptedCard)
     {
         ExchangedCard = acceptedCard;
@@ -30,7 +43,7 @@ public abstract class Player
         Console.WriteLine($"{Name} received {acceptedCard.Rank} of {acceptedCard.Suit} from {targetPlayer.Name}");
     }
 
-    public bool HasRemainCard() => HandCards.Count > 0;
+    public bool HasRemainCard() => HandCardCount > 0;
 
     public void IncrementExchangeRound()
     {
@@ -43,7 +56,7 @@ public abstract class Player
     public void ReturnExchangedCard()
     {
         Console.WriteLine($"{Name} return {ExchangedCard!.Rank} of {ExchangedCard.Suit} back to {ExchangedPlayer!.Name}");
-        ExchangedPlayer.HandCards.Add(ExchangedCard);
+        ExchangedPlayer.AddCard(ExchangedCard);
         ExchangedCard = null;
         ExchangedPlayer = null;
     }

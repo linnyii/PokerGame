@@ -21,7 +21,7 @@ public class HumanPlayer : Player
 
         var selectedCard = SelectCardForExchange();
         Console.WriteLine($"{Name} 出牌：{selectedCard.Rank} of {selectedCard.Suit}");
-        HandCards.Remove(selectedCard);
+        RemoveCard(selectedCard);
         return selectedCard;
     }
 
