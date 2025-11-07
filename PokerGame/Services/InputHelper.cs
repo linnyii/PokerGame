@@ -15,7 +15,7 @@ public static class InputHelper
             {
                 return index;
             }
-            Console.WriteLine($"請輸入 1 到 {maxValue} 之間的數字");
+            Console.WriteLine($"please input number between  1 to {maxValue} ");
         }
     }
 
@@ -24,11 +24,11 @@ public static class InputHelper
         string name;
         do
         {
-            Console.Write("請輸入您的姓名: ");
+            Console.Write("Please input player name");
             name = Console.ReadLine()?.Trim() ?? "";
             if (string.IsNullOrWhiteSpace(name))
             {
-                Console.WriteLine("姓名不能為空，請重新輸入");
+                Console.WriteLine("Can not be empty, please input again");
             }
         } while (string.IsNullOrWhiteSpace(name));
         
@@ -49,7 +49,7 @@ public static class InputHelper
                 case "n" or "no":
                     return false;
                 default:
-                    Console.WriteLine("請輸入 Y 或 N");
+                    Console.WriteLine(" please input Y or N");
                     break;
             }
         }
@@ -57,7 +57,7 @@ public static class InputHelper
 
     public static void DisplayCards(List<Card> cards, string playerName)
     {
-        Console.WriteLine($"\n{playerName} 的手牌：");
+        Console.WriteLine($"\n{playerName} 's handCards：");
         for (var i = 0; i < cards.Count; i++)
         {
             Console.WriteLine($"{i + 1}. {cards[i].Rank} of {cards[i].Suit}");

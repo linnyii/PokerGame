@@ -48,10 +48,10 @@ public class Deck
             playerIndex = (playerIndex + 1) % players.Count;
         }
         
-        Console.WriteLine($"已將 {Cards.Count} 張牌分給 {players.Count} 位玩家");
+        Console.WriteLine($"issue {Cards.Count} cards to  {players.Count} 位玩家");
         foreach (var player in players)
         {
-            Console.WriteLine($"玩家 {player.Name} 獲得 {player.HandCardCount} 張牌");
+            Console.WriteLine($"player {player.Name} get {player.HandCardCount} cards");
         }
     }
 }

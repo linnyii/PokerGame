@@ -20,12 +20,12 @@ public class AiPlayer : Player
     {
         if (!HasRemainCard())
         {
-            Console.WriteLine($"\n{Name} 沒有卡牌可以出。");
+            Console.WriteLine($"\n{Name} has no cards to play");
             return null;
         }
 
         var selectedCard = SelectCardForExchange();
-        Console.WriteLine($"{Name} 出牌：{selectedCard.Rank} of {selectedCard.Suit}");
+        Console.WriteLine($"{Name} plays the card：{selectedCard.Rank} of {selectedCard.Suit}");
         RemoveCard(selectedCard);
         return selectedCard;
     }
@@ -36,17 +36,17 @@ public class AiPlayer : Player
         InputHelper.DisplayCards(cardList, Name);
 
         var cardIndex = _random.Next(1, cardList.Count + 1);
-        Console.WriteLine($"AI選擇卡牌: {cardIndex}");
+        Console.WriteLine($"AI choose the card: {cardIndex}");
 
         return cardList[cardIndex - 1];
     }
 
     public override Player SelectTargetPlayer(List<Player> availablePlayers)
     {
-        InputHelper.DisplayPlayers(availablePlayers, "可以交換卡牌的玩家");
+        InputHelper.DisplayPlayers(availablePlayers, "Players who can do exchange");
 
         var playerIndex = _random.Next(1, availablePlayers.Count + 1);
-        Console.WriteLine($"AI選擇玩家: {playerIndex}");
+        Console.WriteLine($"AI choose the exchange player: {playerIndex}");
 
         return availablePlayers[playerIndex - 1];
     }
@@ -54,9 +54,9 @@ public class AiPlayer : Player
     public override bool WantsToExchange()
     {
         var wantToExchange = _random.Next(2) == 1;
-        Console.WriteLine($"Hi {Name}，您想要與其他玩家交換卡牌嗎？ (Y/N)");
+        Console.WriteLine($"Hi {Name}, would you like to exchange card with other players？ (Y/N)");
         var answer = wantToExchange ? "Y" : "N";
-        Console.WriteLine($"AI選擇: {answer}");
+        Console.WriteLine($"AI answers: {answer}");
         return wantToExchange;
     }
 }

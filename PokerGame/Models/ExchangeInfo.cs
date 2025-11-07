@@ -3,9 +3,9 @@ namespace PokerGame.Models;
 public class ExchangeInfo
 {
     public bool HasUsedExchange { get; set; }
-    public Card? ExchangedCard { get; private set; }
-    public Player? ExchangedPlayer { get; private set; }
-    public int ExchangeRound { get; private set; }
+    private Card? ExchangedCard { get; set; }
+    private Player? ExchangedPlayer { get; set; }
+    private int ExchangeRound { get; set; }
 
     public void SetExchangeInfo(Player targetPlayer, Card acceptedCard)
     {

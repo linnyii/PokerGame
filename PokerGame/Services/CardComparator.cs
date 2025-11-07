@@ -32,7 +32,7 @@ public class CardComparator
     public Player GetRoundWinner(Dictionary<Player, Card> playersShowCard)
     {
         if (playersShowCard.Count == 0)
-            throw new InvalidOperationException("沒有玩家出牌");
+            throw new InvalidOperationException("No draw card from any player for this round");
 
         var winner = playersShowCard.First().Key;
         var winningCard = playersShowCard.First().Value;

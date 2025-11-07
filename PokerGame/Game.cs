@@ -67,18 +67,18 @@ public class Game(Player[] players)
 
     private void DetermineRoundWinner()
     {
-        if (!PlayersShowCard.Any())
+        if (PlayersShowCard.Count == 0)
         {
-            Console.WriteLine("沒有玩家出牌，無法決定勝負。");
+            Console.WriteLine("No draw card from any player");
             return;
         }
 
         var winner = _cardComparator.GetRoundWinner(PlayersShowCard);
         var winningCard = PlayersShowCard[winner];
 
-        Console.WriteLine($"本輪勝利者：{winner.Name}，勝利卡牌：{winningCard.Rank} of {winningCard.Suit}");
+        Console.WriteLine($"Winner of this round：{winner.Name}, winner card：{winningCard.Rank} of {winningCard.Suit}");
         winner.AddPoints(1);
-        Console.WriteLine($"{winner.Name} 目前總分：{winner.TotalPoints}");
+        Console.WriteLine($"{winner.Name} Total Score：{winner.TotalPoints}");
     }
 
     private void InitializePlayerNames()
@@ -93,16 +93,7 @@ public class Game(Player[] players)
     {
         var winner = Players.OrderByDescending(p => p.TotalPoints).First();
         
-        Console.WriteLine("\n=== 遊戲結束 ===");
-        Console.WriteLine("所有玩家最終分數：");
-        
-        var sortedPlayers = Players.OrderByDescending(p => p.TotalPoints).ToList();
-        for (var i = 0; i < sortedPlayers.Count; i++)
-        {
-            var rank = i == 0 ? "🏆 冠軍" : $"第{i + 1}名";
-            Console.WriteLine($"{rank}: {sortedPlayers[i].Name} - {sortedPlayers[i].TotalPoints} 分");
-        }
-
-        Console.WriteLine($"\n🎉 最終獲勝者：{winner.Name}，總分：{winner.TotalPoints} 分！");
+        Console.WriteLine("\n=== Game Over ===");
+        Console.WriteLine($"\n Final Winner：{winner.Name}, Total Score：{winner.TotalPoints} ！");
     }
 }
