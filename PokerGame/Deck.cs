@@ -28,7 +28,6 @@ public class Deck
 
     public void Shuffle()
     {
-        // 洗牌演算法
         var random = new Random();
         for (var i = Cards.Count - 1; i > 0; i--)
         {
@@ -37,7 +36,7 @@ public class Deck
         }
     }
 
-    public void DrawCard(Player[] players)
+    public void DrawCard(List<Player> players)
     {
         var playerIndex = 0;
         
@@ -46,10 +45,10 @@ public class Deck
             var currentPlayer = players[playerIndex];
             currentPlayer.HandCards.Add(card);
             
-            playerIndex = (playerIndex + 1) % players.Length;
+            playerIndex = (playerIndex + 1) % players.Count;
         }
         
-        Console.WriteLine($"已將 {Cards.Count} 張牌分給 {players.Length} 位玩家");
+        Console.WriteLine($"已將 {Cards.Count} 張牌分給 {players.Count} 位玩家");
         foreach (var player in players)
         {
             Console.WriteLine($"玩家 {player.Name} 獲得 {player.HandCards.Count} 張牌");

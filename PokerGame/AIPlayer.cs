@@ -1,96 +1,62 @@
 ﻿using PokerGame.Models;
+using PokerGame.Services;
 
 namespace PokerGame;
 
 public class AiPlayer : Player
 {
-    public AiPlayer( string name)
+    private readonly Random _random = new();
+
+    public AiPlayer(string name)
     {
         Name = name;
     }
 
-    public override void ExchangeCard(Game game)
+    public override void Naming()
     {
-        if (HasUsedExchange || (!HasRemainCard())) return;
-
-        var wantToExchange = new Random().Next(2) == 1;
-        
-        Console.WriteLine($"Hi, {Name}, Do u wanna exchange card with other player? Y/N");
-        var answer = wantToExchange ? "y" : "n";
-        Console.WriteLine($"AI選擇: {answer.ToUpper()}");
-
-        if (answer == "y")
-        {
-            ProcessCardExchange(game);
-        }
     }
 
     public override Card? Decide()
     {
         if (!HasRemainCard())
         {
-            Console.WriteLine($"\n{Name} has no card to play.");
+            Console.WriteLine($"\n{Name} 沒有卡牌可以出。");
             return null;
         }
 
-        var selectedCard = SelectRandomCard();
-        Console.WriteLine($"{Name} issue card:{selectedCard.Rank} of {selectedCard.Suit}");
+        var selectedCard = SelectCardForExchange();
+        Console.WriteLine($"{Name} 出牌：{selectedCard.Rank} of {selectedCard.Suit}");
         HandCards.Remove(selectedCard);
         return selectedCard;
     }
 
-    protected override void ProcessCardExchange(Game game)
+    public override Card SelectCardForExchange()
     {
-        if (!HasOtherPlayersCanDoExchange(game))
-        {
-            return;
-        } 
-        
-        var selectedCard = SelectRandomCard();
-        var targetPlayer = SelectRandomTargetPlayer(game);
-
-        HandCards.Remove(selectedCard);
-        HasUsedExchange = true;
-        targetPlayer.AcceptCardExchange(this,selectedCard);
-    }
-
-    private Player SelectRandomTargetPlayer(Game game)
-    {
-        var playersCanExchange = game.Players.Where(x => !x.HasUsedExchange && x != this).ToList();
-        Console.WriteLine("\n the players can exchange card：");
-        for (var i = 0; i < playersCanExchange.Count; i++)
-        {
-            Console.WriteLine($"{i + 1}. {playersCanExchange[i].Name}");
-        }
-
-        var random = new Random();
-        var playerIndex = random.Next(1, playersCanExchange.Count + 1);
-        Console.WriteLine($"AI選擇玩家: {playerIndex}");
-
-        return playersCanExchange[playerIndex - 1];
-    }
-
-    private Card SelectRandomCard()
-    {
-        Console.WriteLine($"\n{Name}'s HandCard for now：");
         var cardList = HandCards.ToList();
-        for (var i = 0; i < cardList.Count; i++)
-        {
-            Console.WriteLine($"{i + 1}. {cardList[i].Rank} of {cardList[i].Suit}");
-        }
+        InputHelper.DisplayCards(cardList, Name);
 
-        var cardIndex = new Random().Next(1, cardList.Count + 1);
+        var cardIndex = _random.Next(1, cardList.Count + 1);
         Console.WriteLine($"AI選擇卡牌: {cardIndex}");
 
         return cardList[cardIndex - 1];
     }
-    
-    public override void AcceptCardExchange(Player targetPlayer, Card acceptedCard)
+
+    public override Player SelectTargetPlayer(List<Player> availablePlayers)
     {
-        SetExchangeInfo(targetPlayer, acceptedCard);
-        var selectedCard = SelectRandomCard();
-        HandCards.Remove(selectedCard);
-        targetPlayer.SetExchangeInfo(this, selectedCard);
+        InputHelper.DisplayPlayers(availablePlayers, "可以交換卡牌的玩家");
+
+        var playerIndex = _random.Next(1, availablePlayers.Count + 1);
+        Console.WriteLine($"AI選擇玩家: {playerIndex}");
+
+        return availablePlayers[playerIndex - 1];
     }
-    
+
+    public override bool WantsToExchange()
+    {
+        var wantToExchange = _random.Next(2) == 1;
+        Console.WriteLine($"Hi {Name}，您想要與其他玩家交換卡牌嗎？ (Y/N)");
+        var answer = wantToExchange ? "Y" : "N";
+        Console.WriteLine($"AI選擇: {answer}");
+        return wantToExchange;
+    }
 }
