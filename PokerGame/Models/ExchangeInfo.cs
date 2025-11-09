@@ -2,7 +2,7 @@ namespace PokerGame.Models;
 
 public class ExchangeInfo
 {
-    public bool HasUsedExchange { get; set; }
+    public bool HasUsedExchange { get; private set; }
     private Card? ExchangedCard { get; set; }
     private Player? ExchangedPlayer { get; set; }
     private int ExchangeRound { get; set; }

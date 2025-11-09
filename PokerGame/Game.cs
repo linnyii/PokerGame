@@ -46,14 +46,14 @@ public class Game(Player[] players)
             _exchangeManager.ProcessExchange(player, this);
         }
 
-        CollectPlayerCards();
+        CollectPlayerShowCards();
         
         DetermineRoundWinner();
         
         PlayersShowCard.Clear();
     }
 
-    private void CollectPlayerCards()
+    private void CollectPlayerShowCards()
     {
         foreach (var player in Players)
         {

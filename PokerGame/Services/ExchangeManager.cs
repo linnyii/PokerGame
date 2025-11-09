@@ -53,16 +53,14 @@ public class ExchangeManager
             .ToList();
     }
 
-    private void ExecuteExchange(Player initiator, Player target, Card selectedCard)
+    private void ExecuteExchange(Player currentPlayer, Player target, Card selectedCard)
     {
-        initiator.RemoveCard(selectedCard);
-        initiator.ExchangeInfo.HasUsedExchange = true;
-        
-        target.SetExchangeInfo(initiator, selectedCard);
+        currentPlayer.RemoveCard(selectedCard);
+        target.SetExchangeInfo(currentPlayer, selectedCard);
         var returnCard = target.SelectCardForExchange();
         target.RemoveCard(returnCard);
         
-        initiator.SetExchangeInfo(target, returnCard);
+        currentPlayer.SetExchangeInfo(target, returnCard);
     }
 }
 
